@@ -1,0 +1,24 @@
+{
+  "visual": {
+    "name": "marineFossilGroups",
+    "displayName": "Marine Fossil Groups",
+    "guid": "marineFossilGroups5C9E515DA1184C9EBB62CE01DEFEFDCA",
+    "visualClassName": "Visual",
+    "version": "1.3.0.0",
+    "description": "An editorial bar chart of marine fossil occurrence groups with data-driven narrative.",
+    "supportUrl": "https://learn.microsoft.com/en-us/power-bi/developer/visuals/",
+    "gitHubUrl": ""
+  },
+  "apiVersion": "5.11.0",
+  "author": {
+    "name": "Power BI custom visualization presentation",
+    "email": "demo@example.invalid"
+  },
+  "assets": {
+    "icon": "assets/icon.png"
+  },
+  "externalJS": [],
+  "style": "style/visual.css",
+  "capabilities": "capabilities.json",
+  "stringResources": []
+}

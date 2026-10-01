@@ -1,0 +1,8 @@
+{
+  "name": "powerbi-turbine-selector",
+  "version": "1.2.0",
+  "private": true,
+  "scripts": { "package": "pbiviz package --no-stats", "start": "pbiviz start --no-stats" },
+  "dependencies": { "powerbi-visuals-api": "5.11.0", "three": "0.180.0" },
+  "devDependencies": { "@types/three": "0.180.0", "powerbi-visuals-tools": "^7.2.1", "typescript": "^5.9.3" }
+}

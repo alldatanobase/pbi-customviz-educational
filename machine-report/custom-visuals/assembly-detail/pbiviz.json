@@ -1,0 +1,19 @@
+{
+  "visual": {
+    "name": "assemblyDetail",
+    "displayName": "Assembly Detail",
+    "guid": "assemblyDetailC23636C55926439B8AFB32C7CC5C7853",
+    "visualClassName": "Visual",
+    "version": "1.1.0.0",
+    "description": "A selected machine assembly summary with current metrics and compact time-series charts.",
+    "supportUrl": "https://learn.microsoft.com/en-us/power-bi/developer/visuals/",
+    "gitHubUrl": ""
+  },
+  "apiVersion": "5.11.0",
+  "author": { "name": "Power BI custom visualization presentation", "email": "demo@example.invalid" },
+  "assets": { "icon": "assets/icon.png" },
+  "externalJS": [],
+  "style": "style/visual.css",
+  "capabilities": "capabilities.json",
+  "stringResources": []
+}

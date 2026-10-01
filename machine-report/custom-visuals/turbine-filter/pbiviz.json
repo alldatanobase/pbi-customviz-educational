@@ -1,0 +1,19 @@
+{
+  "visual": {
+    "name": "turbineFleetFilter",
+    "displayName": "Turbine Fleet Filter",
+    "guid": "turbineFleetFilter9A3E4F0B86D54C12B7A9E835D1C6F204",
+    "visualClassName": "Visual",
+    "version": "1.0.3.0",
+    "description": "A fleet-level turbine card slicer that highlights machines with active alerts.",
+    "supportUrl": "https://learn.microsoft.com/en-us/power-bi/developer/visuals/",
+    "gitHubUrl": ""
+  },
+  "apiVersion": "5.11.0",
+  "author": { "name": "Power BI custom visualization presentation", "email": "demo@example.invalid" },
+  "assets": { "icon": "assets/icon.png" },
+  "externalJS": [],
+  "style": "style/visual.css",
+  "capabilities": "capabilities.json",
+  "stringResources": []
+}

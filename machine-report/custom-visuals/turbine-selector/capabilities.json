@@ -1,0 +1,44 @@
+{
+  "dataRoles": [
+    { "name": "machineId", "displayName": "Machine ID", "kind": "Grouping", "requiredTypes": [{ "text": true }] },
+    { "name": "partKey", "displayName": "Part key", "kind": "Grouping", "requiredTypes": [{ "text": true }] },
+    { "name": "partName", "displayName": "Part name", "kind": "Grouping" },
+    { "name": "status", "displayName": "Status", "kind": "Grouping" },
+    { "name": "temperature", "displayName": "Temperature", "kind": "Measure" },
+    { "name": "vibration", "displayName": "Vibration", "kind": "Measure" },
+    { "name": "uptime", "displayName": "Uptime", "kind": "Measure" },
+    { "name": "health", "displayName": "Health score", "kind": "Measure" }
+  ],
+  "dataViewMappings": [{
+    "conditions": [{ "machineId": { "max": 1 }, "partKey": { "min": 1, "max": 1 }, "partName": { "max": 1 }, "status": { "max": 1 }, "temperature": { "max": 1 }, "vibration": { "max": 1 }, "uptime": { "max": 1 }, "health": { "max": 1 } }],
+    "table": { "rows": { "select": [
+      { "for": { "in": "machineId" } }, { "for": { "in": "partKey" } }, { "for": { "in": "partName" } }, { "for": { "in": "status" } },
+      { "for": { "in": "temperature" } }, { "for": { "in": "vibration" } }, { "for": { "in": "uptime" } }, { "for": { "in": "health" } }
+    ], "dataReductionAlgorithm": { "top": { "count": 100 } } } }
+  }],
+  "supportsHighlight": true,
+  "supportsMultiVisualSelection": true,
+  "suppressDefaultTitle": true,
+  "objects": {
+    "appearance": { "displayName": "Appearance", "properties": {
+      "backgroundColor": { "displayName": "Background color", "type": { "fill": { "solid": { "color": true } } } },
+      "selectedColor": { "displayName": "Selection glow", "type": { "fill": { "solid": { "color": true } } } },
+      "padding": { "displayName": "Internal padding", "type": { "numeric": true } }
+    } },
+    "behavior": { "displayName": "Behavior", "properties": {
+      "showHeading": { "displayName": "Show heading", "type": { "bool": true } },
+      "showControls": { "displayName": "Show controls", "type": { "bool": true } },
+      "motion": { "displayName": "Animate rotors", "type": { "bool": true } }
+    } },
+    "text": { "displayName": "Text sizes", "properties": {
+      "headingSize": { "displayName": "Heading", "type": { "numeric": true } },
+      "subtitleSize": { "displayName": "Heading subtitle", "type": { "numeric": true } },
+      "controlSize": { "displayName": "Control buttons", "type": { "numeric": true } },
+      "hintSize": { "displayName": "Interaction hint", "type": { "numeric": true } },
+      "bindingSize": { "displayName": "Data binding message", "type": { "numeric": true } },
+      "tooltipTitleSize": { "displayName": "Tooltip title", "type": { "numeric": true } },
+      "tooltipBodySize": { "displayName": "Tooltip details", "type": { "numeric": true } }
+    } }
+  },
+  "privileges": []
+}

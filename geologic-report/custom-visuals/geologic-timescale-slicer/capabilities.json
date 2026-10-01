@@ -1,0 +1,35 @@
+{
+  "dataRoles": [
+    { "name": "unitName", "displayName": "Unit", "kind": "Grouping" },
+    { "name": "rank", "displayName": "Rank", "kind": "Grouping" },
+    { "name": "parent", "displayName": "Parent", "kind": "Grouping" },
+    { "name": "era", "displayName": "Era", "kind": "Grouping" },
+    { "name": "periodKey", "displayName": "Period key", "kind": "Grouping" },
+    { "name": "olderMa", "displayName": "Older boundary (Ma)", "kind": "Measure", "requiredTypes": [{ "numeric": true }] },
+    { "name": "youngerMa", "displayName": "Younger boundary (Ma)", "kind": "Measure", "requiredTypes": [{ "numeric": true }] },
+    { "name": "color", "displayName": "ICS color", "kind": "Grouping" }
+  ],
+  "dataViewMappings": [{
+    "table": { "rows": { "select": [
+      { "for": { "in": "unitName" } }, { "for": { "in": "rank" } },
+      { "for": { "in": "parent" } }, { "for": { "in": "era" } },
+      { "for": { "in": "periodKey" } }, { "for": { "in": "olderMa" } },
+      { "for": { "in": "youngerMa" } }, { "for": { "in": "color" } }
+    ], "dataReductionAlgorithm": { "top": { "count": 500 } } } }
+  }],
+  "sorting": { "default": {} },
+  "supportsHighlight": true,
+  "suppressDefaultTitle": true,
+  "objects": {
+    "appearance": { "displayName": "Appearance", "properties": {
+      "backgroundColor": { "displayName": "Background color", "type": { "fill": { "solid": { "color": true } } } },
+      "padding": { "displayName": "Internal padding", "type": { "numeric": true } }
+    } },
+    "text": { "displayName": "Text sizes", "properties": {
+      "headingSize": { "displayName": "Heading", "type": { "numeric": true } },
+      "cellSize": { "displayName": "Cell labels", "type": { "numeric": true } },
+      "axisSize": { "displayName": "Column and age labels", "type": { "numeric": true } }
+    } }
+  },
+  "privileges": []
+}

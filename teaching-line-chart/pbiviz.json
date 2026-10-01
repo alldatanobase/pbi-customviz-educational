@@ -1,0 +1,19 @@
+{
+  "visual": {
+    "name": "teachingLineChart",
+    "displayName": "Teaching Line Chart",
+    "guid": "teachingLineChartB813405D42E94BB5B1A7526C461F094A",
+    "visualClassName": "Visual",
+    "version": "1.0.0.1",
+    "description": "A minimal D3 line chart for teaching Power BI data roles, rendering, and formatting.",
+    "supportUrl": "https://learn.microsoft.com/en-us/power-bi/developer/visuals/",
+    "gitHubUrl": ""
+  },
+  "apiVersion": "5.11.0",
+  "author": { "name": "Power BI teaching example", "email": "demo@example.invalid" },
+  "assets": { "icon": "assets/icon.png" },
+  "externalJS": [],
+  "style": "style/visual.css",
+  "capabilities": "capabilities.json",
+  "stringResources": []
+}

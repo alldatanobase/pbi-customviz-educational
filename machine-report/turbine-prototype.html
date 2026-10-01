@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Turbine condition monitor — Three.js prototype</title>
+  <style>
+    :root {
+      --paper:#05080c;
+      --ink:#e7fbf8;
+      --muted:#8da4aa;
+      --rule:#233840;
+      --accent:#24e2d3;
+      --panel:#091117;
+      --teal:#24e2d3;
+      --gold:#ffb547;
+    }
+    * { box-sizing:border-box; }
+    html, body { width:100%; height:100%; margin:0; overflow:hidden; background:radial-gradient(circle at 48% -20%,#152832 0,#080d12 38%,var(--paper) 72%); color:var(--ink); }
+    body { font-family:Arial, Helvetica, sans-serif; }
+    button { font:inherit; }
+    .page { height:100%; display:grid; grid-template-rows:auto 1fr; padding:18px 22px 20px; gap:12px; }
+    header { display:grid; grid-template-columns:1fr auto; align-items:end; gap:24px; border-bottom:1px solid #29434a; padding-bottom:11px; }
+    .eyebrow { color:var(--accent); font-size:11px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; margin-bottom:5px; }
+    h1 { font:300 clamp(30px,3.3vw,55px)/.95 Arial,Helvetica,sans-serif; letter-spacing:-.035em; margin:0; text-shadow:0 0 28px #24e2d326; }
+    .dek { max-width:540px; margin:0 0 2px; color:#a8babd; font:14px/1.48 Arial,Helvetica,sans-serif; }
+    .report { min-height:0; display:grid; grid-template-columns:360px minmax(600px,1fr); gap:14px; }
+    .viewer { grid-column:2; grid-row:1; min-width:0; min-height:0; position:relative; overflow:hidden; border:1px solid var(--rule); background:radial-gradient(circle at 46% 42%,#152a30 0,#0b141a 49%,#05090d 100%); box-shadow:inset 0 0 80px #0009,0 0 40px #20dbca0a; }
+    #scene { position:absolute; inset:0; }
+    #scene canvas { display:block; width:100%; height:100%; cursor:grab; outline:none; }
+    #scene canvas:active { cursor:grabbing; }
+    .viewer-top { position:absolute; z-index:4; top:13px; left:14px; right:14px; display:flex; justify-content:space-between; align-items:flex-start; pointer-events:none; }
+    .viewer-title { background:#071016df; border-left:3px solid var(--accent); padding:7px 10px 8px; backdrop-filter:blur(7px); box-shadow:0 0 24px #24e2d314; }
+    .viewer-title strong { display:block; font:400 17px/1 Arial,Helvetica,sans-serif; letter-spacing:.02em; }
+    .viewer-title span { display:block; color:var(--muted); font-size:10px; letter-spacing:.08em; text-transform:uppercase; margin-top:4px; }
+    .toolbar { display:flex; gap:6px; pointer-events:auto; }
+    .toolbar button { border:1px solid #31505a; color:var(--ink); background:#09151bd9; cursor:pointer; }
+    .toolbar button { min-height:34px; padding:7px 10px; font-size:11px; font-weight:700; }
+    .toolbar button:hover, .toolbar button.active { background:#12373a; color:#dffffb; border-color:var(--accent); box-shadow:inset 0 0 18px #24e2d31c,0 0 14px #24e2d312; }
+    .instructions { position:absolute; z-index:3; left:15px; bottom:13px; color:#9bb0b4; background:#071016dc; padding:7px 9px; font-size:10px; line-height:1.45; letter-spacing:.025em; backdrop-filter:blur(7px); pointer-events:none; border:1px solid #233b43; }
+    .instructions b { color:var(--ink); }
+    .tooltip { position:fixed; z-index:20; opacity:0; pointer-events:none; transform:translate(12px,12px); color:var(--ink); background:#071116f2; padding:8px 10px; border:1px solid #2d6f70; box-shadow:0 5px 24px #0009,0 0 18px #24e2d314; font-size:11px; line-height:1.4; transition:opacity .1s; }
+    .tooltip strong { display:block; font:500 14px/1.15 Arial,Helvetica,sans-serif; margin-bottom:3px; color:#7ff9ef; }
+    .side { grid-column:1; grid-row:1; min-height:0; display:grid; grid-template-rows:auto 1fr; border:1px solid var(--rule); background:linear-gradient(180deg,#0b151c 0,var(--panel) 100%); overflow:hidden; box-shadow:inset 0 0 42px #0005; }
+    .side-head { padding:15px 16px 12px; border-bottom:1px solid var(--rule); display:flex; justify-content:space-between; align-items:start; }
+    .side-head span:first-child { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.14em; font-weight:800; }
+    #status { font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#55efb0; text-shadow:0 0 12px #55efb044; }
+    #status.watch { color:#ffc35c; text-shadow:0 0 12px #ffc35c44; }
+    #status.alert { color:#ff6259; text-shadow:0 0 12px #ff625944; }
+    .details { min-height:0; overflow:auto; padding:17px 16px 12px; }
+    #part-name { font:300 29px/1 Arial,Helvetica,sans-serif; letter-spacing:-.025em; margin:0 0 6px; }
+    #part-system { color:var(--accent); text-transform:uppercase; letter-spacing:.13em; font-size:10px; font-weight:800; }
+    #description { font:13px/1.5 Arial,Helvetica,sans-serif; color:#afc0c3; margin:16px 0 18px; }
+    .metrics { display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--rule); border-left:1px solid var(--rule); }
+    .metric { min-height:119px; padding:10px 10px 8px; border-right:1px solid var(--rule); border-bottom:1px solid var(--rule); overflow:hidden; }
+    .metric span { display:block; color:var(--muted); font-size:9px; line-height:1.3; letter-spacing:.1em; text-transform:uppercase; }
+    .metric strong { display:block; font:300 23px/1.05 Arial,Helvetica,sans-serif; margin-top:7px; color:#c9fffa; text-shadow:0 0 14px #24e2d320; }
+    .metric small { color:var(--muted); font-size:9px; }
+    .sparkline { display:block; width:100%; height:38px; margin-top:7px; overflow:visible; }
+    .sparkline .spark-grid { stroke:#294047; stroke-width:1; vector-effect:non-scaling-stroke; }
+    .sparkline .spark-area { fill:var(--spark-color); opacity:.12; }
+    .sparkline .spark-line { fill:none; stroke:var(--spark-color); stroke-width:1.6; vector-effect:non-scaling-stroke; }
+    .sparkline .spark-end { fill:var(--spark-color); stroke:#071116; stroke-width:1.5; vector-effect:non-scaling-stroke; }
+    .callout { margin-top:16px; border-left:3px solid var(--accent); padding:2px 0 2px 11px; color:#a9bcbf; font:13px/1.46 Arial,Helvetica,sans-serif; }
+    .empty-state #part-name { color:var(--ink); }
+    @media (max-width:900px) {
+      .page { padding:12px; }
+      header .dek { display:none; }
+      .report { grid-template-columns:1fr; grid-template-rows:340px minmax(420px,1fr); }
+      .side { grid-column:1; grid-row:1; }
+      .viewer { grid-column:1; grid-row:2; }
+    }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div>
+        <div class="eyebrow">Condition monitoring · Unit GT-04</div>
+        <h1>Inside the turbine</h1>
+      </div>
+      <p class="dek">Explore a low-poly industrial gas turbine. Select an assembly to inspect its operating condition and simulate how the final Power BI visual will filter the report.</p>
+    </header>
+
+    <section class="report">
+      <article class="viewer" aria-label="Interactive three-dimensional turbine model">
+        <div id="scene"></div>
+        <div class="viewer-top">
+          <div class="viewer-title"><strong>Industrial gas turbine</strong><span>10 selectable assemblies</span></div>
+          <div class="toolbar" aria-label="Camera and model controls">
+            <button id="reset-view" type="button">Reset view</button>
+            <button id="explode" type="button" aria-pressed="false">Explode</button>
+            <button id="motion" class="active" type="button" aria-pressed="true">Motion on</button>
+          </div>
+        </div>
+        <div class="instructions"><b>Drag</b> to orbit · <b>Right-drag</b> to pan · <b>Scroll</b> to zoom · <b>Click</b> a component</div>
+      </article>
+
+      <aside class="side empty-state" id="side-panel">
+        <div class="side-head"><span>Selected assembly</span><span id="status">Overview</span></div>
+        <div class="details">
+          <div id="part-system">GT-04 · live simulation</div>
+          <h2 id="part-name">Select a component</h2>
+          <p id="description">Rotate the turbine and choose an assembly to inspect its simulated condition. In Power BI, the same selection will filter every connected visual on the report page.</p>
+          <div class="metrics">
+            <div class="metric"><span>Temperature</span><strong id="temperature">—</strong><small id="temperature-note">current · last 24 readings</small><svg class="sparkline" id="temperature-chart" viewBox="0 0 140 38" role="img" aria-label="Temperature trend"></svg></div>
+            <div class="metric"><span>Vibration</span><strong id="vibration">—</strong><small>RMS velocity · last 24 readings</small><svg class="sparkline" id="vibration-chart" viewBox="0 0 140 38" role="img" aria-label="Vibration trend"></svg></div>
+            <div class="metric"><span>Uptime</span><strong id="uptime">—</strong><small>rolling 30 days · recent trend</small><svg class="sparkline" id="uptime-chart" viewBox="0 0 140 38" role="img" aria-label="Uptime trend"></svg></div>
+            <div class="metric"><span>Health score</span><strong id="health">—</strong><small>out of 100 · recent trend</small><svg class="sparkline" id="health-chart" viewBox="0 0 140 38" role="img" aria-label="Health score trend"></svg></div>
+          </div>
+          <div class="callout" id="callout">The overview combines component-level temperature, vibration, and maintenance signals. Select a part to isolate its operating story.</div>
+        </div>
+      </aside>
+    </section>
+  </main>
+  <div class="tooltip" id="tooltip" role="tooltip"></div>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    const partData = [
+      { key:'inlet', name:'Air inlet', system:'Air path', color:0x6f8f8c, status:'Normal', temp:34, average:36, vibration:0.6, uptime:99.9, health:97, description:'Guides ambient air smoothly into the fan while reducing inlet turbulence.', note:'Air temperature and pressure are stable at the front of the machine.' },
+      { key:'fan', name:'Inlet fan', system:'Rotating equipment', color:0x247b80, status:'Normal', temp:68, average:65, vibration:1.8, uptime:99.7, health:94, description:'Accelerates incoming air and establishes the first stage of compression.', note:'Fan vibration remains below the watch threshold of 3.5 mm/s.' },
+      { key:'compressor', name:'Axial compressor', system:'Compression', color:0x3e7b91, status:'Watch', temp:186, average:171, vibration:3.7, uptime:98.8, health:78, description:'A sequence of rotating and stationary stages raises air pressure before combustion.', note:'Discharge temperature is 15°C above its 30-day average. Continue monitoring fouling and airflow.' },
+      { key:'front-bearing', name:'Front bearing', system:'Bearing train', color:0x725b8f, status:'Alert', temp:91, average:76, vibration:6.2, uptime:96.1, health:56, description:'Supports the forward shaft and maintains rotor alignment under changing loads.', note:'Vibration has crossed the alert threshold. Inspection is recommended during the next planned stop.' },
+      { key:'combustor', name:'Combustor', system:'Combustion', color:0xc45532, status:'Normal', temp:942, average:931, vibration:1.2, uptime:99.2, health:87, description:'Mixes compressed air with fuel and converts chemical energy into a high-temperature gas stream.', note:'Temperature spread remains balanced across the simulated combustion cans.' },
+      { key:'hp-turbine', name:'High-pressure turbine', system:'Power turbine', color:0xd0912d, status:'Watch', temp:816, average:798, vibration:4.1, uptime:98.4, health:74, description:'Extracts energy from the hot gas to drive the upstream compressor.', note:'A modest rise in vibration aligns with the front-bearing condition signal.' },
+      { key:'lp-turbine', name:'Low-pressure turbine', system:'Power turbine', color:0xd0aa52, status:'Normal', temp:588, average:601, vibration:2.5, uptime:99.1, health:89, description:'Captures additional energy from the expanding gas before it reaches the exhaust.', note:'Exhaust-side temperature and vibration remain within the normal operating envelope.' },
+      { key:'rear-bearing', name:'Rear bearing', system:'Bearing train', color:0x7b668f, status:'Normal', temp:73, average:71, vibration:2.2, uptime:99.4, health:91, description:'Supports the rear shaft and stabilizes the turbine rotor near the exhaust section.', note:'No significant change is visible in the recent simulated condition trend.' },
+      { key:'exhaust', name:'Exhaust diffuser', system:'Exhaust', color:0x8d7770, status:'Normal', temp:436, average:442, vibration:0.9, uptime:99.8, health:95, description:'Slows and directs exhaust gas away from the turbine while recovering static pressure.', note:'Exhaust temperature is uniform and slightly below its 30-day average.' },
+      { key:'shaft', name:'Main shaft', system:'Rotor train', color:0x55c9ff, status:'Normal', temp:112, average:109, vibration:2.8, uptime:99.0, health:88, description:'Links the turbine stages to the compressor and transfers rotational power through the machine.', note:'Shaft speed is steady at the current operating load.' }
+    ];
+
+    const container = document.querySelector('#scene');
+    const tooltip = document.querySelector('#tooltip');
+    const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true, powerPreference:'high-performance' });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.26;
+    container.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    // Keep atmospheric depth behind the model. The far distance must remain
+    // beyond both camera positions so switching to exploded view does not dim it.
+    scene.fog = new THREE.Fog(0x05090d, 34, 68);
+    const camera = new THREE.PerspectiveCamera(32, 1, .1, 100);
+    camera.position.set(9.8, 6.2, 11.4);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, .15, 0);
+    controls.enableDamping = true;
+    controls.dampingFactor = .075;
+    controls.minDistance = 7;
+    controls.maxDistance = 25;
+    controls.maxPolarAngle = Math.PI * .84;
+    controls.panSpeed = .7;
+    controls.zoomSpeed = .8;
+    controls.saveState();
+
+    scene.add(new THREE.HemisphereLight(0xbffff9, 0x10242b, 3.1));
+    scene.add(new THREE.AmbientLight(0x8fe8e1, 1.15));
+    const keyLight = new THREE.DirectionalLight(0xe7ffff, 4.35);
+    keyLight.position.set(-5, 9, 8); keyLight.castShadow = true;
+    keyLight.shadow.mapSize.set(1536,1536); keyLight.shadow.camera.left=-12; keyLight.shadow.camera.right=12; keyLight.shadow.camera.top=10; keyLight.shadow.camera.bottom=-7;
+    scene.add(keyLight);
+    const rim = new THREE.DirectionalLight(0x20e6d6, 4.1); rim.position.set(7,3,-7); scene.add(rim);
+    const leftFill = new THREE.DirectionalLight(0x74eee6, 2.75); leftFill.position.set(-9,2,6); scene.add(leftFill);
+    const rightFill = new THREE.DirectionalLight(0xa5d7ff, 2.1); rightFill.position.set(9,4,5); scene.add(rightFill);
+    const warm = new THREE.PointLight(0xff7b35, 34, 11, 2); warm.position.set(.8,1.2,1.5); scene.add(warm);
+
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(38,26), new THREE.ShadowMaterial({ color:0x000000, opacity:.42 }));
+    floor.rotation.x = -Math.PI/2; floor.position.y=-3.15; floor.receiveShadow=true; scene.add(floor);
+    const grid = new THREE.GridHelper(24,24,0x24777a,0x17343a); grid.position.y=-3.13; grid.material.opacity=.24; grid.material.transparent=true; scene.add(grid);
+
+    const machine = new THREE.Group(); machine.rotation.y = -.08; scene.add(machine);
+    const parts = new Map();
+    const pickable = [];
+    const rotators = [];
+
+    const makeMaterial = (color, metalness=.55, roughness=.32, transparent=false, opacity=1) => new THREE.MeshStandardMaterial({ color, metalness, roughness, transparent, opacity, side:THREE.DoubleSide });
+    const addPart = (key, x=0) => {
+      const group = new THREE.Group();
+      group.position.x=x; group.userData.partKey=key; group.userData.homeX=x; group.userData.homeY=0; group.userData.homeZ=0;
+      machine.add(group); parts.set(key,group); return group;
+    };
+    const addMesh = (group, geometry, material, position=[0,0,0], rotation=[0,0,0]) => {
+      const mesh = new THREE.Mesh(geometry,material);
+      mesh.position.set(...position); mesh.rotation.set(...rotation); mesh.castShadow=true; mesh.receiveShadow=true;
+      mesh.userData.partKey=group.userData.partKey; mesh.userData.baseColor=material.color.clone(); mesh.userData.baseOpacity=material.opacity; mesh.userData.baseTransparent=material.transparent;
+      group.add(mesh); pickable.push(mesh); return mesh;
+    };
+    const cylinderX = (radiusTop,radiusBottom,length,segments=32,open=false,thetaStart=0,thetaLength=Math.PI*2) => {
+      const g=new THREE.CylinderGeometry(radiusTop,radiusBottom,length,segments,1,open,thetaStart,thetaLength); g.rotateZ(Math.PI/2); return g;
+    };
+    const ringX = (radius,tube=.08,segments=32) => { const g=new THREE.TorusGeometry(radius,tube,8,segments); g.rotateY(Math.PI/2); return g; };
+    const bladeRing = (group, radius, count, width, height, depth, color, x=0, twist=.25) => {
+      const rotor=new THREE.Group(); rotor.position.x=x; group.add(rotor);
+      const mat=makeMaterial(color,.72,.25);
+      addMesh(group, cylinderX(radius*.24,radius*.24,width,24), mat, [x,0,0]);
+      for(let i=0;i<count;i++){
+        const a=i/count*Math.PI*2;
+        const blade=new THREE.Mesh(new THREE.BoxGeometry(width,height,depth),mat);
+        blade.position.set(0,Math.cos(a)*radius*.68,Math.sin(a)*radius*.68);
+        blade.rotation.x=a+twist; blade.rotation.z=twist*.6; blade.castShadow=true;
+        blade.userData.partKey=group.userData.partKey; blade.userData.baseColor=mat.color.clone(); blade.userData.baseOpacity=mat.opacity; blade.userData.baseTransparent=mat.transparent; rotor.add(blade); pickable.push(blade);
+      }
+      rotators.push({object:rotor,speed:1}); return rotor;
+    };
+
+    const inlet=addPart('inlet',-5.1);
+    addMesh(inlet,cylinderX(2.38,2.02,1.15,40,true,.42,Math.PI*1.32),makeMaterial(0x6f8f8c,.65,.3),[0,0,0]);
+    addMesh(inlet,ringX(2.18,.12,40),makeMaterial(0x314c48,.75,.25),[-.57,0,0]);
+    for(let i=0;i<5;i++){
+      const a=(-.62+i*.31)*Math.PI;
+      addMesh(inlet,new THREE.BoxGeometry(.7,.08,1.75),makeMaterial(0x91aaa5,.45,.4),[-.18,Math.cos(a)*.85,Math.sin(a)*.85],[a,0,0]);
+    }
+
+    const fan=addPart('fan',-3.88);
+    bladeRing(fan,1.75,16,.22,1.55,.23,0x247b80,0,.3);
+    addMesh(fan,ringX(1.9,.06,40),makeMaterial(0x183a39,.8,.22));
+
+    const compressor=addPart('compressor',-2.2);
+    addMesh(compressor,cylinderX(1.72,1.98,2.25,40,true,.48,Math.PI*1.18),makeMaterial(0x3e7b91,.65,.3,true,.72));
+    for(let s=0;s<5;s++){
+      const x=-.86+s*.42, radius=1.52-s*.08;
+      bladeRing(compressor,radius,12,.09,.64,.12,s%2?0x83b7bd:0x3e7b91,x,s%2?-.22:.22);
+      addMesh(compressor,ringX(radius,.045,30),makeMaterial(0xc0d3d2,.55,.36),[x,0,0]);
+    }
+
+    const shaft=addPart('shaft',0);
+    addMesh(shaft,cylinderX(.22,.22,9.1,24),makeMaterial(0x55c9ff,.68,.22));
+
+    const frontBearing=addPart('front-bearing',-.72);
+    addMesh(frontBearing,ringX(.52,.19,28),makeMaterial(0x725b8f,.8,.25));
+    addMesh(frontBearing,ringX(.84,.08,32),makeMaterial(0xa997b4,.6,.3));
+    for(let i=0;i<10;i++){const a=i/10*Math.PI*2;addMesh(frontBearing,new THREE.SphereGeometry(.105,12,8),makeMaterial(0xc9c1ce,.85,.18),[0,Math.cos(a)*.67,Math.sin(a)*.67]);}
+
+    const combustor=addPart('combustor',.05);
+    addMesh(combustor,cylinderX(1.75,1.6,1.95,40,true,.5,Math.PI*1.12),makeMaterial(0x8f4934,.5,.34,true,.48));
+    for(let i=0;i<8;i++){
+      const a=i/8*Math.PI*2;
+      addMesh(combustor,cylinderX(.24,.31,1.3,18,true),makeMaterial(i%2?0xc45532:0xde7542,.42,.4),[0,Math.cos(a)*1.08,Math.sin(a)*1.08]);
+    }
+    const flameMat=new THREE.MeshBasicMaterial({color:0xff8d37,transparent:true,opacity:.55,blending:THREE.AdditiveBlending,depthWrite:false});
+    const flame=addMesh(combustor,cylinderX(.44,.72,1.2,24,true),flameMat,[.18,0,0]); flame.userData.flame=true;
+
+    const hp=addPart('hp-turbine',1.52);
+    addMesh(hp,cylinderX(1.58,1.4,1.03,36,true,.48,Math.PI*1.16),makeMaterial(0x9d772d,.65,.3,true,.66));
+    bladeRing(hp,1.28,14,.13,.66,.15,0xd0912d,-.25,.32); bladeRing(hp,1.18,12,.13,.6,.14,0xbc7624,.24,-.28);
+
+    const lp=addPart('lp-turbine',2.82);
+    addMesh(lp,cylinderX(1.45,1.62,1.28,36,true,.48,Math.PI*1.16),makeMaterial(0x9e8349,.62,.32,true,.66));
+    bladeRing(lp,1.17,12,.13,.59,.14,0xd0aa52,-.32,.3); bladeRing(lp,1.3,14,.13,.65,.14,0xb98e3d,.31,-.26);
+
+    const rearBearing=addPart('rear-bearing',3.72);
+    addMesh(rearBearing,ringX(.5,.18,28),makeMaterial(0x7b668f,.8,.25));
+    addMesh(rearBearing,ringX(.79,.075,32),makeMaterial(0xb0a2bc,.6,.3));
+    for(let i=0;i<10;i++){const a=i/10*Math.PI*2;addMesh(rearBearing,new THREE.SphereGeometry(.095,12,8),makeMaterial(0xd3cbd9,.85,.18),[0,Math.cos(a)*.63,Math.sin(a)*.63]);}
+
+    const exhaust=addPart('exhaust',4.72);
+    addMesh(exhaust,cylinderX(1.64,2.08,1.82,40,true,.42,Math.PI*1.32),makeMaterial(0x8d7770,.58,.35),[0,0,0]);
+    addMesh(exhaust,ringX(1.9,.12,40),makeMaterial(0x544b48,.72,.28),[.9,0,0]);
+    for(let i=0;i<6;i++){const a=i/6*Math.PI*2;addMesh(exhaust,new THREE.BoxGeometry(.82,.08,1.15),makeMaterial(0xb39e93,.5,.38),[-.18,Math.cos(a)*.7,Math.sin(a)*.7],[a,0,0]);}
+
+    // Give every part a subtle wireframe silhouette to make the low-poly construction legible.
+    parts.forEach(group=>{
+      group.traverse(obj=>{
+        if(!obj.isMesh || obj.userData.flame) return;
+        const edges=new THREE.LineSegments(new THREE.EdgesGeometry(obj.geometry,28),new THREE.LineBasicMaterial({color:0x7dfff4,transparent:true,opacity:.16}));
+        edges.raycast=()=>{}; obj.add(edges);
+      });
+    });
+
+    const raycaster=new THREE.Raycaster();
+    const pointer=new THREE.Vector2();
+    let hoveredKey=null, selectedKey=null, exploded=false, moving=true, downPoint=null;
+
+    function getDatum(key){ return partData.find(d=>d.key===key); }
+    function updateMaterials(){
+      parts.forEach((group,key)=>group.traverse(obj=>{
+        if(!obj.isMesh || !obj.material?.color || obj.userData.flame) return;
+        const active=key===selectedKey, hover=key===hoveredKey;
+        obj.material.color.copy(obj.userData.baseColor || obj.material.color);
+        obj.material.emissive?.set(active?0x087d75:hover?0x174f50:0x000000);
+        if(obj.material.emissiveIntensity!==undefined)obj.material.emissiveIntensity=active ? .72 : hover ? .38 : 0;
+        const baseOpacity=obj.userData.baseOpacity ?? 1;
+        obj.material.transparent=selectedKey && !active ? true : (obj.userData.baseTransparent ?? false);
+        obj.material.opacity=selectedKey && !active ? Math.min(baseOpacity,.2) : baseOpacity;
+      }));
+    }
+    function seededNoise(seed,index){
+      const value=Math.sin((seed+1)*91.73+index*37.19)*43758.5453;
+      return (value-Math.floor(value))-.5;
+    }
+    function makeTrend(end,amplitude,seed,change){
+      const values=[];
+      for(let i=0;i<24;i++){
+        const progress=i/23;
+        const baseline=end-change*(1-progress);
+        const wave=Math.sin(progress*Math.PI*3+seed)*amplitude*.35;
+        values.push(baseline+wave+seededNoise(seed,i)*amplitude);
+      }
+      values[23]=end;
+      return values;
+    }
+    function drawSparkline(id,values,color){
+      const svg=document.querySelector(`#${id}`),width=140,height=38,pad=3;
+      svg.style.setProperty('--spark-color',color);
+      if(!values){svg.innerHTML='<line class="spark-grid" x1="3" y1="35" x2="137" y2="35" opacity=".45"/>';return;}
+      let min=Math.min(...values),max=Math.max(...values);
+      const buffer=Math.max((max-min)*.18,Math.abs(max)*.008,.15);min-=buffer;max+=buffer;
+      const points=values.map((value,index)=>{
+        const x=pad+index/(values.length-1)*(width-pad*2);
+        const y=height-pad-(value-min)/(max-min)*(height-pad*2);
+        return [x,y];
+      });
+      const line=points.map((point,index)=>`${index?'L':'M'}${point[0].toFixed(2)},${point[1].toFixed(2)}`).join(' ');
+      const area=`${line} L${points.at(-1)[0].toFixed(2)},${height-pad} L${points[0][0].toFixed(2)},${height-pad} Z`;
+      const end=points.at(-1);
+      svg.innerHTML=`<line class="spark-grid" x1="${pad}" y1="${height-pad}" x2="${width-pad}" y2="${height-pad}"/><path class="spark-area" d="${area}"/><path class="spark-line" d="${line}"/><circle class="spark-end" cx="${end[0]}" cy="${end[1]}" r="2.4"/>`;
+    }
+    function renderTrends(d){
+      if(!d){['temperature','vibration','uptime','health'].forEach(name=>drawSparkline(`${name}-chart`,null,'#36525a'));return;}
+      const seed=partData.findIndex(part=>part.key===d.key)+1;
+      const signal=d.status==='Alert'?'#ff6259':d.status==='Watch'?'#ffc35c':'#24e2d3';
+      const pressure=d.status==='Alert' ? 1 : d.status==='Watch' ? .6 : .2;
+      drawSparkline('temperature-chart',makeTrend(d.temp,Math.max(d.temp*.018,2),seed,d.temp*.025*pressure),signal);
+      drawSparkline('vibration-chart',makeTrend(d.vibration,Math.max(d.vibration*.18,.18),seed+3,d.vibration*.22*pressure),signal);
+      drawSparkline('uptime-chart',makeTrend(d.uptime,.18,seed+6,-.12*pressure),'#55c9ff');
+      drawSparkline('health-chart',makeTrend(d.health,1.25,seed+9,-4.5*pressure),d.status==='Normal'?'#55efb0':signal);
+    }
+    function setDetails(key){
+      const panel=document.querySelector('#side-panel'), d=getDatum(key), status=document.querySelector('#status');
+      if(!d){
+        panel.classList.add('empty-state');status.textContent='Overview';status.className='';
+        document.querySelector('#part-system').textContent='GT-04 · live simulation';
+        document.querySelector('#part-name').textContent='Select a component';
+        document.querySelector('#description').textContent='Rotate the turbine and choose an assembly to inspect its simulated condition. In Power BI, the same selection will filter every connected visual on the report page.';
+        document.querySelector('#temperature').textContent='—';document.querySelector('#temperature-note').textContent='current · last 24 readings';
+        document.querySelector('#vibration').textContent='—';document.querySelector('#uptime').textContent='—';document.querySelector('#health').textContent='—';
+        document.querySelector('#callout').textContent='Select a part to reveal its temperature, vibration, uptime, health, and recent synthetic trends.';
+        renderTrends(null);return;
+      }
+      panel.classList.remove('empty-state');
+      document.querySelector('#part-system').textContent=d.system;
+      document.querySelector('#part-name').textContent=d.name;
+      document.querySelector('#description').textContent=d.description;
+      document.querySelector('#temperature').textContent=`${d.temp}°C`;
+      document.querySelector('#temperature-note').textContent=`30-day avg ${d.average}°C · last 24 readings`;
+      document.querySelector('#vibration').textContent=`${d.vibration.toFixed(1)} mm/s`;
+      document.querySelector('#uptime').textContent=`${d.uptime.toFixed(1)}%`;
+      document.querySelector('#health').textContent=d.health;
+      document.querySelector('#callout').textContent=d.note;
+      status.textContent=d.status; status.className=d.status.toLowerCase();
+      renderTrends(d);
+    }
+    function selectPart(key){selectedKey=selectedKey===key?null:key;setDetails(selectedKey);updateMaterials();}
+
+    function hitTest(event){
+      const rect=renderer.domElement.getBoundingClientRect();
+      pointer.x=((event.clientX-rect.left)/rect.width)*2-1;pointer.y=-((event.clientY-rect.top)/rect.height)*2+1;
+      raycaster.setFromCamera(pointer,camera);return raycaster.intersectObjects(pickable,false)[0]?.object?.userData.partKey || null;
+    }
+    renderer.domElement.addEventListener('pointerdown',e=>{downPoint={x:e.clientX,y:e.clientY};});
+    renderer.domElement.addEventListener('pointerup',e=>{
+      if(!downPoint)return;const moved=Math.hypot(e.clientX-downPoint.x,e.clientY-downPoint.y);downPoint=null;
+      if(moved<5)selectPart(hitTest(e));
+    });
+    renderer.domElement.addEventListener('pointermove',e=>{
+      const key=hitTest(e);if(key!==hoveredKey){hoveredKey=key;updateMaterials();}
+      if(key){const d=getDatum(key);tooltip.innerHTML=`<strong>${d.name}</strong>${d.status} · ${d.temp}°C · ${d.vibration.toFixed(1)} mm/s`;tooltip.style.opacity=1;tooltip.style.left=`${e.clientX}px`;tooltip.style.top=`${e.clientY}px`;renderer.domElement.style.cursor='pointer';}
+      else{tooltip.style.opacity=0;renderer.domElement.style.cursor=downPoint?'grabbing':'grab';}
+    });
+    renderer.domElement.addEventListener('pointerleave',()=>{hoveredKey=null;tooltip.style.opacity=0;updateMaterials();});
+
+    document.querySelector('#reset-view').addEventListener('click',()=>{controls.reset();selectedKey=null;setDetails(null);updateMaterials();});
+    document.querySelector('#explode').addEventListener('click',e=>{
+      exploded=!exploded;
+      e.currentTarget.classList.toggle('active',exploded);
+      e.currentTarget.setAttribute('aria-pressed',String(exploded));
+      const viewDirection=camera.position.clone().sub(controls.target).normalize();
+      const desiredDistance=exploded ? 27.5 : 16.5;
+      camera.position.copy(controls.target).add(viewDirection.multiplyScalar(desiredDistance));
+    });
+    document.querySelector('#motion').addEventListener('click',e=>{moving=!moving;e.currentTarget.classList.toggle('active',moving);e.currentTarget.textContent=moving?'Motion on':'Motion off';e.currentTarget.setAttribute('aria-pressed',String(moving));});
+
+    const resizeObserver=new ResizeObserver(()=>{
+      const {width,height}=container.getBoundingClientRect();if(!width||!height)return;
+      renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();
+    });resizeObserver.observe(container);
+
+    const explodeOffsets={
+      'inlet':[-3.3,.15,0],
+      'fan':[-2.45,.05,0],
+      'compressor':[-1.55,0,0],
+      'front-bearing':[-.72,.85,.25],
+      'combustor':[-.25,-.12,0],
+      'hp-turbine':[.85,.08,0],
+      'lp-turbine':[1.75,.02,0],
+      'rear-bearing':[2.48,.8,.25],
+      'exhaust':[3.45,.12,0],
+      'shaft':[0,-2.22,.15]
+    };
+    const clock=new THREE.Clock();
+    function animate(){
+      requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.04);
+      if(moving)rotators.forEach((r,i)=>r.object.rotation.x+=dt*(i<2?1.25:.8));
+      parts.forEach((group,key)=>{
+        const offset=explodeOffsets[key] || [0,0,0];
+        const targetX=group.userData.homeX+(exploded?offset[0]:0);
+        const targetY=group.userData.homeY+(exploded?offset[1]:0);
+        const targetZ=group.userData.homeZ+(exploded?offset[2]:0);
+        group.position.x=THREE.MathUtils.lerp(group.position.x,targetX,.075);
+        group.position.y=THREE.MathUtils.lerp(group.position.y,targetY,.075);
+        group.position.z=THREE.MathUtils.lerp(group.position.z,targetZ,.075);
+      });
+      flame.material.opacity=.48+Math.sin(performance.now()*.006)*.08;
+      controls.update();renderer.render(scene,camera);
+    }
+    updateMaterials();setDetails(null);animate();
+  </script>
+</body>
+</html>

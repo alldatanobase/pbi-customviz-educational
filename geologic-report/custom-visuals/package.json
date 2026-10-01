@@ -1,0 +1,12 @@
+{
+  "name": "geologic-powerbi-visuals",
+  "private": true,
+  "workspaces": [
+    "geologic-timescale-slicer",
+    "paleo-globe",
+    "marine-fossil-groups"
+  ],
+  "scripts": {
+    "package": "npm run package --workspaces --if-present"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "dataRoles": [
+    { "name": "date", "displayName": "Date", "kind": "Grouping" },
+    { "name": "value", "displayName": "Value", "kind": "Measure", "requiredTypes": [{ "numeric": true }] }
+  ],
+  "dataViewMappings": [{
+    "conditions": [{ "date": { "max": 1 }, "value": { "max": 1 } }],
+    "categorical": {
+      "categories": { "for": { "in": "date" }, "dataReductionAlgorithm": { "top": { "count": 1000 } } },
+      "values": { "select": [{ "bind": { "to": "value" } }] }
+    }
+  }],
+  "objects": {
+    "line": {
+      "displayName": "Line",
+      "properties": {
+        "color": { "displayName": "Color", "type": { "fill": { "solid": { "color": true } } } },
+        "width": { "displayName": "Width", "type": { "numeric": true } },
+        "showPoints": { "displayName": "Show points", "type": { "bool": true } }
+      }
+    }
+  },
+  "privileges": []
+}

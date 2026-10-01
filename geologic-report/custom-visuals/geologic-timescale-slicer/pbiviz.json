@@ -1,0 +1,24 @@
+{
+  "visual": {
+    "name": "geologicTimescaleSlicer",
+    "displayName": "Geologic Time Slicer",
+    "guid": "geologicTimescaleSlicer9B5D7C11E68048EEAEE021C843C79810",
+    "visualClassName": "Visual",
+    "version": "1.3.0.0",
+    "description": "A vertical geologic time slicer for eras, systems, series, and stages.",
+    "supportUrl": "https://learn.microsoft.com/en-us/power-bi/developer/visuals/",
+    "gitHubUrl": ""
+  },
+  "apiVersion": "5.11.0",
+  "author": {
+    "name": "Power BI custom visualization presentation",
+    "email": "demo@example.invalid"
+  },
+  "assets": {
+    "icon": "assets/icon.png"
+  },
+  "externalJS": [],
+  "style": "style/visual.css",
+  "capabilities": "capabilities.json",
+  "stringResources": []
+}

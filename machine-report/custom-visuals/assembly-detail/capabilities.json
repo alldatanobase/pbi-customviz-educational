@@ -1,0 +1,45 @@
+{
+  "dataRoles": [
+    { "name": "timestamp", "displayName": "Timestamp", "kind": "Grouping" },
+    { "name": "partKey", "displayName": "Part key", "kind": "Grouping" },
+    { "name": "partName", "displayName": "Part name", "kind": "Grouping" },
+    { "name": "system", "displayName": "System", "kind": "Grouping" },
+    { "name": "status", "displayName": "Status", "kind": "Grouping" },
+    { "name": "description", "displayName": "Description", "kind": "Grouping" },
+    { "name": "note", "displayName": "Narrative", "kind": "Grouping" },
+    { "name": "temperature", "displayName": "Temperature", "kind": "Measure" },
+    { "name": "vibration", "displayName": "Vibration", "kind": "Measure" },
+    { "name": "uptime", "displayName": "Uptime", "kind": "Measure" },
+    { "name": "health", "displayName": "Health score", "kind": "Measure" }
+  ],
+  "dataViewMappings": [{
+    "conditions": [{ "timestamp": { "min": 1, "max": 1 }, "partKey": { "max": 1 }, "partName": { "max": 1 }, "system": { "max": 1 }, "status": { "max": 1 }, "description": { "max": 1 }, "note": { "max": 1 }, "temperature": { "max": 1 }, "vibration": { "max": 1 }, "uptime": { "max": 1 }, "health": { "max": 1 } }],
+    "table": { "rows": { "select": [
+      { "for": { "in": "timestamp" } }, { "for": { "in": "partKey" } }, { "for": { "in": "partName" } }, { "for": { "in": "system" } }, { "for": { "in": "status" } }, { "for": { "in": "description" } }, { "for": { "in": "note" } },
+      { "for": { "in": "temperature" } }, { "for": { "in": "vibration" } }, { "for": { "in": "uptime" } }, { "for": { "in": "health" } }
+    ], "dataReductionAlgorithm": { "window": { "count": 5000 } } } }
+  }],
+  "suppressDefaultTitle": true,
+  "objects": {
+    "appearance": { "displayName": "Appearance", "properties": {
+      "backgroundColor": { "displayName": "Background color", "type": { "fill": { "solid": { "color": true } } } },
+      "normalColor": { "displayName": "Normal color", "type": { "fill": { "solid": { "color": true } } } },
+      "watchColor": { "displayName": "Watch color", "type": { "fill": { "solid": { "color": true } } } },
+      "alertColor": { "displayName": "Alert color", "type": { "fill": { "solid": { "color": true } } } },
+      "padding": { "displayName": "Internal padding", "type": { "numeric": true } }
+    } },
+    "text": { "displayName": "Text sizes", "properties": {
+      "panelLabelSize": { "displayName": "Panel label", "type": { "numeric": true } },
+      "statusSize": { "displayName": "Status", "type": { "numeric": true } },
+      "systemSize": { "displayName": "System label", "type": { "numeric": true } },
+      "headingSize": { "displayName": "Assembly heading", "type": { "numeric": true } },
+      "descriptionSize": { "displayName": "Description", "type": { "numeric": true } },
+      "metricLabelSize": { "displayName": "Metric labels", "type": { "numeric": true } },
+      "metricSize": { "displayName": "Metric values", "type": { "numeric": true } },
+      "metricCaptionSize": { "displayName": "Metric captions", "type": { "numeric": true } },
+      "narrativeSize": { "displayName": "Narrative", "type": { "numeric": true } },
+      "emptySize": { "displayName": "Empty-state message", "type": { "numeric": true } }
+    } }
+  },
+  "privileges": []
+}

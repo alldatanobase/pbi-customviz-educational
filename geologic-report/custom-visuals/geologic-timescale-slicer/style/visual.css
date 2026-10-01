@@ -1,0 +1,12 @@
+html,body,body>div,#sandbox-host,#sandbox-host>div{width:100%!important;height:100%!important;margin:0!important;padding:0!important;overflow:hidden!important;background:var(--visual-bg,#f4efe5)!important}
+*{box-sizing:border-box}
+.timescale-root{width:100%;height:100%;overflow:hidden;background:var(--visual-bg,#f4efe5);color:#17241f;font-family:Arial,sans-serif}
+.timescale-root header{height:52px;padding:0 10px;border-top:4px solid #17241f;border-bottom:1px solid #c8c0b4;display:flex;align-items:center;justify-content:space-between}
+.timescale-root h2{font:var(--heading-size,30px)/1 Georgia,serif;margin:0}.timescale-root header span{font-size:12px;color:#66716b}
+.chart{height:calc(100% - 52px);position:relative}.chart svg{width:100%;height:100%;display:block;touch-action:none}
+.column-title{font:var(--axis-size,12px) Arial,sans-serif;fill:#66716b;letter-spacing:.08em;text-transform:uppercase}
+.cell{stroke:#fff9;stroke-width:.65;cursor:pointer}.cell:hover{stroke:#17241f;stroke-width:2}
+.cell-label{font:700 var(--cell-size,14px) Arial,sans-serif;fill:#13201b;pointer-events:none}.cell-label.light-label{fill:#fff}
+.age-axis text{font:var(--axis-size,12px) Arial,sans-serif;fill:#66716b}.age-axis path,.age-axis line{stroke:#858f89}
+.zoom-controls{position:absolute;right:5px;bottom:6px;display:flex;gap:4px}.zoom-controls button{border:1px solid #17241f;background:#f4efe5;color:#17241f;height:32px;min-width:32px;font-size:15px;font-weight:700;cursor:pointer}
+.empty{font:15px Georgia,serif;fill:#66716b}

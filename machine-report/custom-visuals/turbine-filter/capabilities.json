@@ -1,0 +1,55 @@
+{
+  "dataRoles": [
+    { "name": "timestamp", "displayName": "Timestamp", "kind": "Grouping" },
+    { "name": "machineId", "displayName": "Machine ID", "kind": "Grouping", "requiredTypes": [{ "text": true }] },
+    { "name": "partKey", "displayName": "Part key", "kind": "Grouping" },
+    { "name": "status", "displayName": "Part status", "kind": "Grouping" },
+    { "name": "health", "displayName": "Health score", "kind": "Measure" },
+    { "name": "uptime", "displayName": "Uptime", "kind": "Measure" }
+  ],
+  "dataViewMappings": [{
+    "conditions": [{ "timestamp": { "max": 1 }, "machineId": { "max": 1 }, "partKey": { "max": 1 }, "status": { "max": 1 }, "health": { "max": 1 }, "uptime": { "max": 1 } }],
+    "matrix": {
+      "rows": { "select": [
+        { "for": { "in": "machineId" } },
+        { "for": { "in": "timestamp" } },
+        { "for": { "in": "partKey" } },
+        { "for": { "in": "status" } }
+      ], "dataReductionAlgorithm": { "window": { "count": 30000 } } },
+      "values": { "select": [ { "bind": { "to": "health" } }, { "bind": { "to": "uptime" } } ] }
+    }
+  }],
+  "supportsHighlight": true,
+  "supportsMultiVisualSelection": true,
+  "supportsSynchronizingFilterState": true,
+  "suppressDefaultTitle": true,
+  "objects": {
+    "general": { "displayName": "General", "properties": {
+      "filter": { "type": { "filter": true } }
+    } },
+    "appearance": { "displayName": "Appearance", "properties": {
+      "backgroundColor": { "displayName": "Background color", "type": { "fill": { "solid": { "color": true } } } },
+      "cardColor": { "displayName": "Card color", "type": { "fill": { "solid": { "color": true } } } },
+      "selectedColor": { "displayName": "Selected color", "type": { "fill": { "solid": { "color": true } } } },
+      "normalColor": { "displayName": "Normal color", "type": { "fill": { "solid": { "color": true } } } },
+      "watchColor": { "displayName": "Watch color", "type": { "fill": { "solid": { "color": true } } } },
+      "alertColor": { "displayName": "Alert color", "type": { "fill": { "solid": { "color": true } } } },
+      "padding": { "displayName": "Internal padding", "type": { "numeric": true } },
+      "cardGap": { "displayName": "Card spacing", "type": { "numeric": true } }
+    } },
+    "behavior": { "displayName": "Behavior", "properties": {
+      "showHeading": { "displayName": "Show heading", "type": { "bool": true } },
+      "showMetrics": { "displayName": "Show card metrics", "type": { "bool": true } }
+    } },
+    "text": { "displayName": "Text sizes", "properties": {
+      "headingSize": { "displayName": "Heading", "type": { "numeric": true } },
+      "subtitleSize": { "displayName": "Subtitle", "type": { "numeric": true } },
+      "machineSize": { "displayName": "Machine name", "type": { "numeric": true } },
+      "statusSize": { "displayName": "Status", "type": { "numeric": true } },
+      "metricSize": { "displayName": "Metric values", "type": { "numeric": true } },
+      "labelSize": { "displayName": "Metric labels", "type": { "numeric": true } },
+      "messageSize": { "displayName": "Data message", "type": { "numeric": true } }
+    } }
+  },
+  "privileges": []
+}

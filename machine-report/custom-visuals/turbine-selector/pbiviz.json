@@ -1,0 +1,19 @@
+{
+  "visual": {
+    "name": "turbineSelector",
+    "displayName": "Turbine Selector",
+    "guid": "turbineSelector65E1AA454B8A4F57B5B07D1B8DB4C310",
+    "visualClassName": "Visual",
+    "version": "1.2.0.0",
+    "description": "An interactive Three.js gas turbine that filters a Power BI report by assembly.",
+    "supportUrl": "https://learn.microsoft.com/en-us/power-bi/developer/visuals/",
+    "gitHubUrl": ""
+  },
+  "apiVersion": "5.11.0",
+  "author": { "name": "Power BI custom visualization presentation", "email": "demo@example.invalid" },
+  "assets": { "icon": "assets/icon.png" },
+  "externalJS": [],
+  "style": "style/visual.css",
+  "capabilities": "capabilities.json",
+  "stringResources": []
+}

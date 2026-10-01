@@ -1,0 +1,452 @@
+{
+  "format": "GeoJSON",
+  "source": "Scotese and Wright (2018) PALEOMAP PaleoDEM, 1-degree CSV grids",
+  "coastlineMethod": "linearly interpolated zero-elevation contour (marching squares)",
+  "license": "CC BY 4.0",
+  "seaLevelMeters": 0.0,
+  "stepMa": 10,
+  "simplifyToleranceDegrees": 0.08,
+  "minimumPolygonAreaSquareDegrees": 0.15,
+  "snapshots": [
+    {
+      "ageMa": 0,
+      "file": "land-000Ma.geojson",
+      "source": "Map01_000Ma.csv",
+      "polygons": 119,
+      "vertices": 5487,
+      "bytes": 142906
+    },
+    {
+      "ageMa": 10,
+      "file": "land-010Ma.geojson",
+      "source": "Map05_010Ma.csv",
+      "polygons": 103,
+      "vertices": 5334,
+      "bytes": 143852
+    },
+    {
+      "ageMa": 20,
+      "file": "land-020Ma.geojson",
+      "source": "Map07_020Ma.csv",
+      "polygons": 75,
+      "vertices": 4632,
+      "bytes": 125250
+    },
+    {
+      "ageMa": 30,
+      "file": "land-030Ma.geojson",
+      "source": "Map09_030Ma.csv",
+      "polygons": 96,
+      "vertices": 5629,
+      "bytes": 153378
+    },
+    {
+      "ageMa": 40,
+      "file": "land-040Ma.geojson",
+      "source": "Map11_040Ma.csv",
+      "polygons": 141,
+      "vertices": 6231,
+      "bytes": 170336
+    },
+    {
+      "ageMa": 50,
+      "file": "land-050Ma.geojson",
+      "source": "Map13_050Ma.csv",
+      "polygons": 184,
+      "vertices": 8457,
+      "bytes": 233471
+    },
+    {
+      "ageMa": 60,
+      "file": "land-060Ma.geojson",
+      "source": "Map15_060Ma.csv",
+      "polygons": 141,
+      "vertices": 6685,
+      "bytes": 175781
+    },
+    {
+      "ageMa": 70,
+      "file": "land-070Ma.geojson",
+      "source": "Map17_070Ma.csv",
+      "polygons": 137,
+      "vertices": 6223,
+      "bytes": 164545
+    },
+    {
+      "ageMa": 80,
+      "file": "land-080Ma.geojson",
+      "source": "Map19_080Ma.csv",
+      "polygons": 114,
+      "vertices": 6434,
+      "bytes": 175452
+    },
+    {
+      "ageMa": 90,
+      "file": "land-090Ma.geojson",
+      "source": "Map21_090Ma.csv",
+      "polygons": 79,
+      "vertices": 4991,
+      "bytes": 129797
+    },
+    {
+      "ageMa": 100,
+      "file": "land-100Ma.geojson",
+      "source": "Map23_100Ma.csv",
+      "polygons": 71,
+      "vertices": 4351,
+      "bytes": 118771
+    },
+    {
+      "ageMa": 110,
+      "file": "land-110Ma.geojson",
+      "source": "Map25_110Ma.csv",
+      "polygons": 87,
+      "vertices": 5097,
+      "bytes": 131826
+    },
+    {
+      "ageMa": 120,
+      "file": "land-120Ma.geojson",
+      "source": "Map27_120Ma.csv",
+      "polygons": 128,
+      "vertices": 5044,
+      "bytes": 132027
+    },
+    {
+      "ageMa": 130,
+      "file": "land-130Ma.geojson",
+      "source": "Map29_130Ma.csv",
+      "polygons": 95,
+      "vertices": 4962,
+      "bytes": 124582
+    },
+    {
+      "ageMa": 140,
+      "file": "land-140Ma.geojson",
+      "source": "Map31_140Ma.csv",
+      "polygons": 65,
+      "vertices": 4286,
+      "bytes": 109602
+    },
+    {
+      "ageMa": 150,
+      "file": "land-150Ma.geojson",
+      "source": "Map33_150Ma.csv",
+      "polygons": 81,
+      "vertices": 4952,
+      "bytes": 128301
+    },
+    {
+      "ageMa": 160,
+      "file": "land-160Ma.geojson",
+      "source": "Map35_160Ma.csv",
+      "polygons": 82,
+      "vertices": 4637,
+      "bytes": 121651
+    },
+    {
+      "ageMa": 170,
+      "file": "land-170Ma.geojson",
+      "source": "Map37_170Ma.csv",
+      "polygons": 80,
+      "vertices": 4428,
+      "bytes": 114170
+    },
+    {
+      "ageMa": 180,
+      "file": "land-180Ma.geojson",
+      "source": "Map39_180Ma.csv",
+      "polygons": 26,
+      "vertices": 3333,
+      "bytes": 91830
+    },
+    {
+      "ageMa": 190,
+      "file": "land-190Ma.geojson",
+      "source": "Map41_190Ma.csv",
+      "polygons": 47,
+      "vertices": 3351,
+      "bytes": 85507
+    },
+    {
+      "ageMa": 200,
+      "file": "land-200Ma.geojson",
+      "source": "Map43_200Ma.csv",
+      "polygons": 33,
+      "vertices": 3118,
+      "bytes": 88797
+    },
+    {
+      "ageMa": 210,
+      "file": "land-210Ma.geojson",
+      "source": "Map44_210Ma.csv",
+      "polygons": 37,
+      "vertices": 2985,
+      "bytes": 79674
+    },
+    {
+      "ageMa": 220,
+      "file": "land-220Ma.geojson",
+      "source": "Map45_220Ma.csv",
+      "polygons": 34,
+      "vertices": 2890,
+      "bytes": 72217
+    },
+    {
+      "ageMa": 230,
+      "file": "land-230Ma.geojson",
+      "source": "Map46_230Ma.csv",
+      "polygons": 35,
+      "vertices": 1793,
+      "bytes": 38990
+    },
+    {
+      "ageMa": 240,
+      "file": "land-240Ma.geojson",
+      "source": "Map47_240Ma.csv",
+      "polygons": 10,
+      "vertices": 1981,
+      "bytes": 52685
+    },
+    {
+      "ageMa": 250,
+      "file": "land-250Ma.geojson",
+      "source": "Map49_250Ma.csv",
+      "polygons": 6,
+      "vertices": 1920,
+      "bytes": 44089
+    },
+    {
+      "ageMa": 260,
+      "file": "land-260Ma.geojson",
+      "source": "Map51_260Ma.csv",
+      "polygons": 14,
+      "vertices": 2294,
+      "bytes": 57848
+    },
+    {
+      "ageMa": 270,
+      "file": "land-270Ma.geojson",
+      "source": "Map52_270Ma.csv",
+      "polygons": 12,
+      "vertices": 1977,
+      "bytes": 47217
+    },
+    {
+      "ageMa": 280,
+      "file": "land-280Ma.geojson",
+      "source": "Map53.5_280Ma.csv",
+      "polygons": 23,
+      "vertices": 2006,
+      "bytes": 50561
+    },
+    {
+      "ageMa": 290,
+      "file": "land-290Ma.geojson",
+      "source": "Map55_290Ma.csv",
+      "polygons": 13,
+      "vertices": 1571,
+      "bytes": 35414
+    },
+    {
+      "ageMa": 300,
+      "file": "land-300Ma.geojson",
+      "source": "Map57_300Ma.csv",
+      "polygons": 13,
+      "vertices": 1276,
+      "bytes": 30258
+    },
+    {
+      "ageMa": 310,
+      "file": "land-310Ma.geojson",
+      "source": "Map59_310Ma.csv",
+      "polygons": 11,
+      "vertices": 1485,
+      "bytes": 33586
+    },
+    {
+      "ageMa": 320,
+      "file": "land-320Ma.geojson",
+      "source": "Map60_320Ma.csv",
+      "polygons": 10,
+      "vertices": 1254,
+      "bytes": 30287
+    },
+    {
+      "ageMa": 330,
+      "file": "land-330Ma.geojson",
+      "source": "Map62_330Ma.csv",
+      "polygons": 18,
+      "vertices": 1474,
+      "bytes": 33033
+    },
+    {
+      "ageMa": 340,
+      "file": "land-340Ma.geojson",
+      "source": "Map63_340Ma.csv",
+      "polygons": 15,
+      "vertices": 1138,
+      "bytes": 27951
+    },
+    {
+      "ageMa": 350,
+      "file": "land-350Ma.geojson",
+      "source": "Map64_350Ma.csv",
+      "polygons": 16,
+      "vertices": 1363,
+      "bytes": 30724
+    },
+    {
+      "ageMa": 360,
+      "file": "land-360Ma.geojson",
+      "source": "Map65_360Ma.csv",
+      "polygons": 22,
+      "vertices": 1269,
+      "bytes": 29955
+    },
+    {
+      "ageMa": 370,
+      "file": "land-370Ma.geojson",
+      "source": "Map66_370Ma.csv",
+      "polygons": 27,
+      "vertices": 1547,
+      "bytes": 34942
+    },
+    {
+      "ageMa": 380,
+      "file": "land-380Ma.geojson",
+      "source": "Map67_380Ma.csv",
+      "polygons": 32,
+      "vertices": 1840,
+      "bytes": 44234
+    },
+    {
+      "ageMa": 390,
+      "file": "land-390Ma.geojson",
+      "source": "Map68_390Ma.csv",
+      "polygons": 29,
+      "vertices": 1770,
+      "bytes": 39671
+    },
+    {
+      "ageMa": 400,
+      "file": "land-400Ma.geojson",
+      "source": "Map70_400Ma.csv",
+      "polygons": 24,
+      "vertices": 1366,
+      "bytes": 32817
+    },
+    {
+      "ageMa": 410,
+      "file": "land-410Ma.geojson",
+      "source": "Map71_410Ma.csv",
+      "polygons": 32,
+      "vertices": 1493,
+      "bytes": 35501
+    },
+    {
+      "ageMa": 420,
+      "file": "land-420Ma.geojson",
+      "source": "Map73_420Ma.csv",
+      "polygons": 36,
+      "vertices": 1625,
+      "bytes": 43013
+    },
+    {
+      "ageMa": 430,
+      "file": "land-430Ma.geojson",
+      "source": "Map75_430Ma.csv",
+      "polygons": 33,
+      "vertices": 1546,
+      "bytes": 40633
+    },
+    {
+      "ageMa": 440,
+      "file": "land-440Ma.geojson",
+      "source": "Map76_440Ma.csv",
+      "polygons": 26,
+      "vertices": 1142,
+      "bytes": 29256
+    },
+    {
+      "ageMa": 450,
+      "file": "land-450Ma.geojson",
+      "source": "Map78_450Ma.csv",
+      "polygons": 33,
+      "vertices": 1422,
+      "bytes": 33114
+    },
+    {
+      "ageMa": 460,
+      "file": "land-460Ma.geojson",
+      "source": "Map80_460Ma.csv",
+      "polygons": 33,
+      "vertices": 1406,
+      "bytes": 36413
+    },
+    {
+      "ageMa": 470,
+      "file": "land-470Ma.geojson",
+      "source": "Map81_470Ma.csv",
+      "polygons": 33,
+      "vertices": 1335,
+      "bytes": 32606
+    },
+    {
+      "ageMa": 480,
+      "file": "land-480Ma.geojson",
+      "source": "Map82_480Ma.csv",
+      "polygons": 44,
+      "vertices": 1558,
+      "bytes": 39854
+    },
+    {
+      "ageMa": 490,
+      "file": "land-490Ma.geojson",
+      "source": "Map83_490Ma.csv",
+      "polygons": 35,
+      "vertices": 1295,
+      "bytes": 32307
+    },
+    {
+      "ageMa": 500,
+      "file": "land-500Ma.geojson",
+      "source": "Map84_500Ma.csv",
+      "polygons": 35,
+      "vertices": 1035,
+      "bytes": 25481
+    },
+    {
+      "ageMa": 510,
+      "file": "land-510Ma.geojson",
+      "source": "Map84.2_510Ma.csv",
+      "polygons": 19,
+      "vertices": 1211,
+      "bytes": 28080
+    },
+    {
+      "ageMa": 520,
+      "file": "land-520Ma.geojson",
+      "source": "Map86_520Ma.csv",
+      "polygons": 22,
+      "vertices": 1300,
+      "bytes": 31396
+    },
+    {
+      "ageMa": 530,
+      "file": "land-530Ma.geojson",
+      "source": "Map87_530Ma.csv",
+      "polygons": 32,
+      "vertices": 1257,
+      "bytes": 29744
+    },
+    {
+      "ageMa": 540,
+      "file": "land-540Ma.geojson",
+      "source": "Map88_540Ma.csv",
+      "polygons": 17,
+      "vertices": 1262,
+      "bytes": 32884
+    }
+  ]
+}

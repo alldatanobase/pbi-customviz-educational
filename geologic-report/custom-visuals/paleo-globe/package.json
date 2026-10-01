@@ -1,0 +1,18 @@
+{
+  "name": "powerbi-paleo-globe",
+  "version": "1.3.0",
+  "private": true,
+  "scripts": {
+    "package": "pbiviz package --no-stats",
+    "start": "pbiviz start --no-stats"
+  },
+  "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "powerbi-visuals-tools": "^7.2.1",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "d3": "^7.9.0",
+    "powerbi-visuals-api": "^5.11.1"
+  }
+}

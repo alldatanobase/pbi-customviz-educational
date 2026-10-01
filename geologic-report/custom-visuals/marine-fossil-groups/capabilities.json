@@ -1,0 +1,35 @@
+{
+  "dataRoles": [
+    { "name": "period", "displayName": "Period", "kind": "Grouping" },
+    { "name": "scientificName", "displayName": "Scientific name", "kind": "Grouping" },
+    { "name": "commonName", "displayName": "Common name", "kind": "Grouping" },
+    { "name": "occurrenceCount", "displayName": "Occurrence count", "kind": "Measure", "requiredTypes": [{ "numeric": true }] },
+    { "name": "leaderName", "displayName": "Leading group", "kind": "Grouping" },
+    { "name": "leaderShare", "displayName": "Leader share", "kind": "Measure", "requiredTypes": [{ "numeric": true }] },
+    { "name": "leaderSummary", "displayName": "Leader summary", "kind": "Grouping" },
+    { "name": "periodSummary", "displayName": "Period summary", "kind": "Grouping" }
+  ],
+  "dataViewMappings": [{
+    "table": { "rows": { "select": [
+      { "for": { "in": "period" } }, { "for": { "in": "scientificName" } },
+      { "for": { "in": "commonName" } }, { "for": { "in": "occurrenceCount" } },
+      { "for": { "in": "leaderName" } }, { "for": { "in": "leaderShare" } },
+      { "for": { "in": "leaderSummary" } }, { "for": { "in": "periodSummary" } }
+    ], "dataReductionAlgorithm": { "top": { "count": 100 } } } }
+  }],
+  "suppressDefaultTitle": true,
+  "objects": {
+    "appearance": { "displayName": "Appearance", "properties": {
+      "backgroundColor": { "displayName": "Background color", "type": { "fill": { "solid": { "color": true } } } },
+      "padding": { "displayName": "Internal padding", "type": { "numeric": true } },
+      "chartHeight": { "displayName": "Chart height (%)", "type": { "numeric": true } }
+    } },
+    "text": { "displayName": "Text sizes", "properties": {
+      "headingSize": { "displayName": "Heading", "type": { "numeric": true } },
+      "labelSize": { "displayName": "Group labels", "type": { "numeric": true } },
+      "scientificSize": { "displayName": "Scientific names", "type": { "numeric": true } },
+      "narrativeSize": { "displayName": "Narrative", "type": { "numeric": true } }
+    } }
+  },
+  "privileges": []
+}

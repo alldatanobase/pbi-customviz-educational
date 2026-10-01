@@ -1,0 +1,33 @@
+{
+  "dataRoles": [
+    { "name": "period", "displayName": "Period", "kind": "Grouping" },
+    { "name": "series", "displayName": "Series", "kind": "Grouping" },
+    { "name": "snapshotAge", "displayName": "Snapshot age (Ma)", "kind": "Measure", "requiredTypes": [{ "numeric": true }] },
+    { "name": "visualTitle", "displayName": "Visual title", "kind": "Grouping" },
+    { "name": "snapshotLabel", "displayName": "Snapshot label", "kind": "Grouping" },
+    { "name": "narrative", "displayName": "Globe narrative", "kind": "Grouping" }
+  ],
+  "dataViewMappings": [{
+    "conditions": [{ "period": { "max": 1 }, "series": { "max": 1 }, "snapshotAge": { "max": 1 }, "visualTitle": { "max": 1 }, "snapshotLabel": { "max": 1 }, "narrative": { "max": 1 } }],
+    "table": { "rows": { "select": [
+      { "for": { "in": "period" } }, { "for": { "in": "series" } }, { "for": { "in": "snapshotAge" } },
+      { "for": { "in": "visualTitle" } }, { "for": { "in": "snapshotLabel" } },
+      { "for": { "in": "narrative" } }
+    ] } }
+  }],
+  "suppressDefaultTitle": true,
+  "objects": {
+    "appearance": { "displayName": "Appearance", "properties": {
+      "backgroundColor": { "displayName": "Background color", "type": { "fill": { "solid": { "color": true } } } },
+      "padding": { "displayName": "Internal padding", "type": { "numeric": true } },
+      "landColor": { "displayName": "Land color", "type": { "fill": { "solid": { "color": true } } } },
+      "oceanColor": { "displayName": "Ocean color", "type": { "fill": { "solid": { "color": true } } } }
+    } },
+    "text": { "displayName": "Text sizes", "properties": {
+      "headingSize": { "displayName": "Heading", "type": { "numeric": true } },
+      "snapshotSize": { "displayName": "Snapshot label", "type": { "numeric": true } },
+      "narrativeSize": { "displayName": "Narrative", "type": { "numeric": true } }
+    } }
+  },
+  "privileges": []
+}
